@@ -1,13 +1,5 @@
-/**
- * AuthContext manages the user's authentication state by storing a token,
- * It provides functions for the user to register, log in, and log out,
- * all of which update the token in state.
- */
-
 import { createContext, useContext, useState } from "react";
 
-// import.meta.env allows us to access environment variables,
-// which are defined in a file named .env
 const API = import.meta.env.VITE_API;
 
 const AuthContext = createContext();

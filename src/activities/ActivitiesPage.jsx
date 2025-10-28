@@ -1,15 +1,17 @@
-import { useState, useEffect } from "react";
-import { getActivities } from "../api/activities";
-
-import ActivityList from "./ActivityList";
-import ActivityForm from "./ActivityForm";
+import { useEffect, useState } from "react";
+import { getActivities } from "../api/activities.js";
+import { useAuth } from "../auth/AuthContext.jsx";
+import ActivityForm from "./ActivityForm.jsx";
+import ActivityList from "./ActivityList.jsx";
 
 export default function ActivitiesPage() {
+  const { token } = useAuth();
+
   const [activities, setActivities] = useState([]);
 
   const syncActivities = async () => {
     const data = await getActivities();
-    setActivities(data);
+    setActivities(Array.isArray(data) ? data : []);
   };
 
   useEffect(() => {
@@ -17,10 +19,10 @@ export default function ActivitiesPage() {
   }, []);
 
   return (
-    <>
+    <section>
       <h1>Activities</h1>
-      <ActivityList activities={activities} syncActivities={syncActivities} />
-      <ActivityForm syncActivities={syncActivities} />
-    </>
+      <ActivityList activities={activities} />
+      {token && <ActivityForm syncActivities={syncActivities} />}
+    </section>
   );
 }
